@@ -12,6 +12,7 @@ namespace SeeGit
         private readonly RepositoryGraph _graph = new RepositoryGraph();
         private readonly Repository _repository;
         private readonly Dictionary<string, CommitVertex> _vertices = new Dictionary<string, CommitVertex>();
+        private readonly List<string> _commitsInGraph = new List<string>();
         private readonly Dictionary<string, CommitEdge> _edges = new Dictionary<string, CommitEdge>();
 
         public RepositoryGraphBuilder(string gitRepositoryPath)
@@ -32,6 +33,8 @@ namespace SeeGit
         {
             if (_repository == null) return new RepositoryGraph();
 
+            _commitsInGraph.Clear();
+
             var commits =
                 _repository.Commits.QueryBy(new CommitFilter { SortBy = CommitSortStrategies.Topological | CommitSortStrategies.Time });
 
@@ -45,10 +48,11 @@ namespace SeeGit
             }
 
             if (!commits.Any()) return _graph;
-            AddCommitsToGraph(commits.First(), null);
 
+            AddCommitsToGraph(commits.First(), null);
             AddBranchReferences();
             AddHeadReference();
+            RemoveUnreachableCommits();
 
             _graph.LayoutAlgorithmType = "CompoundFDP";
             return _graph;
@@ -80,6 +84,16 @@ namespace SeeGit
             headCommitVertex.Branches.Merge(headBranceReference);
             AddCommitsToGraph(headCommit, null);
             HighlightCommitsOnCurrentBranch(headCommit, headCommitVertex);
+        }
+
+        private void RemoveUnreachableCommits()
+        {
+            _graph.RemoveVertexIf(CommitIsNotInGraph);
+        }
+
+        private bool CommitIsNotInGraph(CommitVertex v)
+        {
+            return !_commitsInGraph.Contains(v.Sha);
         }
 
         private bool HighlightCommit(Commit commit)
@@ -155,6 +169,8 @@ namespace SeeGit
                 commitVertex = new CommitVertex(commit.Sha, commit.MessageShort) { Description = commit.Message };
                 _vertices.Add(commit.Sha, commitVertex);
             }
+
+            _commitsInGraph.Add(commit.Sha);
 
             return commitVertex;
         }
