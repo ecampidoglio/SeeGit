@@ -54,7 +54,7 @@ namespace SeeGit
             AddHeadReference();
             RemoveUnreachableCommits();
 
-            _graph.LayoutAlgorithmType = "CompoundFDP";
+            _graph.LayoutAlgorithmType = "Tree";
             return _graph;
         }
 

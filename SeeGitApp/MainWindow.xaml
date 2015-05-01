@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:local="clr-namespace:SeeGit"
         xmlns:graphsharp="clr-namespace:GraphSharp.Controls;assembly=GraphSharp.Controls"
+        xmlns:tree="clr-namespace:GraphSharp.Algorithms.Layout.Simple.Tree;assembly=GraphSharp"
         xmlns:zoom="clr-namespace:WPFExtensions.Controls;assembly=WPFExtensions"
         xmlns:view="clr-namespace:SeeGit.Views"
         xmlns:extbehaviour="clr-namespace:WPFExtensions.AttachedBehaviours;assembly=WPFExtensions" x:Class="SeeGit.MainWindow"
@@ -80,9 +81,16 @@
     </StackPanel>
 
     <zoom:ZoomControl Grid.Row="1" Zoom="0.2" ZoomBoxOpacity="0.5" Background="#ff656565" Style="{StaticResource SeeGitZoomControl}">
-      <local:RepositoryGraphLayout x:Name="graphLayout" Margin="10" Graph="{Binding Graph}"
-                                   LayoutAlgorithmType="{Binding LayoutAlgorithmType, Mode=OneWay}" OverlapRemovalAlgorithmType="FSA"
-                                   FlowDirection="LeftToRight" />
+      <local:RepositoryGraphLayout x:Name="graphLayout"
+                                   Margin="10"
+                                   Graph="{Binding Graph}"
+                                   LayoutAlgorithmType="Tree"
+                                   OverlapRemovalAlgorithmType="FSA"
+                                   FlowDirection="LeftToRight">
+        <local:RepositoryGraphLayout.LayoutParameters>
+          <tree:SimpleTreeLayoutParameters Direction="RightToLeft"></tree:SimpleTreeLayoutParameters>
+        </local:RepositoryGraphLayout.LayoutParameters>
+      </local:RepositoryGraphLayout>
     </zoom:ZoomControl>
   </Grid>
 </Window>
