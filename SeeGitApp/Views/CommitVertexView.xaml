@@ -7,15 +7,17 @@
   <Grid DataContext="{Binding Model, ElementName=View}">
 
     <AdornerDecorator>
-      <Border Background="Black" BorderThickness="2" CornerRadius="10,10,10,10">
+      <Border BorderThickness="2" CornerRadius="10,10,10,10">
           <Border.Style>
               <Style TargetType="Border">
                   <Style.Triggers>
                       <DataTrigger Binding="{Binding OnCurrentBranch}" Value="true">
-                          <Setter Property="BorderBrush" Value="#00CC00" />
+                          <Setter Property="Background" Value="#008FB5" />
+                          <Setter Property="BorderBrush" Value="#008FB5" />
                       </DataTrigger>
                       <DataTrigger Binding="{Binding OnCurrentBranch}" Value="false">
-                          <Setter Property="BorderBrush" Value="White" />
+                          <Setter Property="Background" Value="#979797" />
+                          <Setter Property="BorderBrush" Value="#979797" />
                       </DataTrigger>
                   </Style.Triggers>
               </Style>
@@ -49,29 +51,37 @@
                   </ListBox.Resources>
                   <ListBox.ItemTemplate>
                     <DataTemplate>
-                      <Border BorderBrush="Black" BorderThickness="1">
+                      <Border>
                         <Border.Resources>
 
                           <Style x:Key="branch" TargetType="TextBlock">
                             <Style.Triggers>
 
                               <DataTrigger Binding="{Binding Path=IsHead}" Value="True">
-                                <Setter Property="Background" Value="#00CC00" />
-                                <Setter Property="Foreground" Value="Black" />
+                                <Setter Property="Background" Value="#008FB5" />
+                                <Setter Property="Foreground" Value="White" />
                               </DataTrigger>
                               <DataTrigger Binding="{Binding Path=IsHead}" Value="False">
-                                <Setter Property="Background" Value="#887765" />
-                                <Setter Property="Foreground" Value="Black" />
+                                <Setter Property="Background" Value="#979797" />
+                                <Setter Property="Foreground" Value="White" />
                               </DataTrigger>
                               <DataTrigger Binding="{Binding Path=IsRemote}" Value="True">
-                                <Setter Property="Background" Value="#BFE5FE" />
-                                <Setter Property="Foreground" Value="Black" />
+                                <Setter Property="Background" Value="#FF8100" />
+                                <Setter Property="Foreground" Value="White" />
 
                               </DataTrigger>
                             </Style.Triggers>
                           </Style>
                         </Border.Resources>
-                        <TextBlock Text="{Binding Name}" Style="{StaticResource branch}" FontSize="8" Padding="2" />
+                        <TextBlock Text="{Binding Name}" Style="{StaticResource branch}" FontSize="10" Padding="5">
+                          <TextBlock.Effect>
+                            <DropShadowEffect RenderingBias="Performance"
+                                              BlurRadius="6"
+                                              Color="Black"
+                                              Opacity="0.3"
+                                              Direction="315" />
+                          </TextBlock.Effect>
+                        </TextBlock>
                       </Border>
                     </DataTemplate>
                   </ListBox.ItemTemplate>
