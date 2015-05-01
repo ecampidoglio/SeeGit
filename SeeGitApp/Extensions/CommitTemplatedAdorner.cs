@@ -12,7 +12,6 @@ namespace SeeGit
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="adornedElement"></param>
         public CommitTemplatedAdorner(UIElement adornedElement, FrameworkElement frameworkElementAdorner)
             : base(adornedElement)
         {
