@@ -86,10 +86,6 @@
           </local:CommitAdornerBehavior>
         </i:Interaction.Behaviors>
 
-        <Border.Effect>
-          <DropShadowEffect BlurRadius="2" Color="LightGray" Opacity="0.3" Direction="315" />
-        </Border.Effect>
-
         <Expander IsExpanded="False" Header="{Binding ShortSha, Mode=OneWay}" Padding="5"
                   ToolTip="{Binding Message, Mode=OneWay}" Expanded="Expander_Expanded" Collapsed="Expander_Collapsed">
           <Expander.Style>
