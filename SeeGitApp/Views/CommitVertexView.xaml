@@ -27,16 +27,16 @@
             <local:CommitAdornerBehavior.AdornerTemplate>
               <DataTemplate>
                 <StackPanel Orientation="Horizontal">
-                  <TextBlock Text="{Binding Message}" Foreground="White" TextWrapping="Wrap" MaxWidth="250" Visibility="{Binding Path=AdornerMessageVisibility, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                  <TextBlock Text="{Binding ShortSha}" Foreground="White" TextWrapping="Wrap" MaxWidth="250" Visibility="{Binding Path=AdornerMessageVisibility, Converter={StaticResource BooleanToVisibilityConverter}}" />
                 </StackPanel>
               </DataTemplate>
             </local:CommitAdornerBehavior.AdornerTemplate>
           </local:CommitAdornerBehavior>
-          <local:CommitAdornerBehavior AdornerVisible="Visible" AdornerMargin="90,-15,0,0" DataContext="{Binding}">
+          <local:CommitAdornerBehavior AdornerVisible="Visible" AdornerMargin="50,-15,0,0" DataContext="{Binding}">
             <local:CommitAdornerBehavior.AdornerTemplate>
               <DataTemplate>
                 <ListBox Name="listBox" BorderThickness="0" Background="Transparent"
-                         ItemsSource="{Binding Path=Branches, Mode=OneWay}" Margin="0" Padding="0"
+                         ItemsSource="{Binding Path=Branches, Mode=OneWay, IsAsync=True}" Margin="0" Padding="0"
                          ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                          Visibility="{Binding Path=HasBranches, Converter={StaticResource BooleanToVisibilityConverter}}">
                   <ListBox.Resources>
@@ -47,18 +47,15 @@
                         <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="Black" />
                       </Style.Resources>
                     </Style>
-
                   </ListBox.Resources>
                   <ListBox.ItemTemplate>
                     <DataTemplate>
                       <Border>
                         <Border.Resources>
-
                           <Style x:Key="branch" TargetType="TextBlock">
                             <Style.Triggers>
-
                               <DataTrigger Binding="{Binding Path=IsHead}" Value="True">
-                                <Setter Property="Background" Value="#008FB5" />
+                                <Setter Property="Background" Value="#FF8100" />
                                 <Setter Property="Foreground" Value="White" />
                               </DataTrigger>
                               <DataTrigger Binding="{Binding Path=IsHead}" Value="False">
@@ -66,9 +63,8 @@
                                 <Setter Property="Foreground" Value="White" />
                               </DataTrigger>
                               <DataTrigger Binding="{Binding Path=IsRemote}" Value="True">
-                                <Setter Property="Background" Value="#FF8100" />
+                                <Setter Property="Background" Value="#008FB5" />
                                 <Setter Property="Foreground" Value="White" />
-
                               </DataTrigger>
                             </Style.Triggers>
                           </Style>
@@ -96,19 +92,20 @@
           </local:CommitAdornerBehavior>
         </i:Interaction.Behaviors>
 
-        <Expander IsExpanded="False" Header="{Binding ShortSha, Mode=OneWay}" Padding="5"
-                  ToolTip="{Binding Message, Mode=OneWay}" Expanded="Expander_Expanded" Collapsed="Expander_Collapsed">
-          <Expander.Style>
-            <Style TargetType="{x:Type Expander}">
-              <Setter Property="Foreground" Value="White" />
-              <Setter Property="FontFamily" Value="Lucida Console" />
-            </Style>
-          </Expander.Style>
-          <StackPanel Orientation="Vertical">
-            <TextBlock Text="{Binding Message}" Foreground="White" TextWrapping="Wrap" MaxWidth="150" Visibility="{Binding DescriptionShown, Converter={StaticResource InverseBooleanToVisibilityConverter}}" />
-            <TextBlock Text="{Binding Description}" Foreground="White" TextWrapping="Wrap" MaxWidth="250" Visibility="{Binding DescriptionShown, Converter={StaticResource BooleanToVisibilityConverter}}" />
-          </StackPanel>
-        </Expander>
+        <TextBlock Text="{Binding Message, Mode=OneWay}"
+                   Padding="5"
+                   MinWidth="70"
+                   TextAlignment="Center"
+                   Foreground="White"
+                   FontFamily="Consolas"
+                   FontSize="18">
+            <TextBlock.ToolTip>
+                <TextBlock Padding="5"
+                           MinWidth="70"
+                           FontSize="20"
+                           Text="{Binding ShortSha, Mode=OneWay}" />
+            </TextBlock.ToolTip>
+        </TextBlock>
       </Border>
     </AdornerDecorator>
   </Grid>
